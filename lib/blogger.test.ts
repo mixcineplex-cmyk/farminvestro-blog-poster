@@ -1,5 +1,5 @@
 import { test, expect } from "vitest";
-import { getAccessToken, hasAutoPostToday, publishPost } from "./blogger";
+import { getAccessToken, hasAutoPostToday, publishPost } from "./blogger.js";
 
 const jsonResp = (body: unknown) =>
   (async () => ({ ok: true, json: async () => body }) as unknown as Response) as unknown as typeof fetch;

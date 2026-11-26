@@ -1,5 +1,5 @@
 import { test, expect } from "vitest";
-import { generatePost } from "./gemini";
+import { generatePost } from "./gemini.js";
 
 function resp(text: string) {
   return async () =>

@@ -1,5 +1,5 @@
 import { test, expect } from "vitest";
-import { pickSlot, NONTHAI, TOPICS } from "./rotation";
+import { pickSlot, NONTHAI, TOPICS } from "./rotation.js";
 
 test("non-post day returns null", () => {
   expect(pickSlot(new Date("2026-11-24T10:00:00Z"))).toBeNull(); // Tue

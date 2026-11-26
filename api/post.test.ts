@@ -1,5 +1,5 @@
 import { test, expect } from "vitest";
-import { runPost, type Deps } from "./post";
+import { runPost, type Deps } from "./post.js";
 
 const deps = (over: Partial<Deps> = {}): Deps => ({
   pickSlot: () => ({ lang: "en", topic: "t", postIndex: 0 }),
@@ -27,6 +27,7 @@ test("skips when already posted today", async () => {
 
 test("publishes and returns url", async () => {
   const r = await runPost(new Date(), deps());
+  if (!("url" in r)) throw new Error("expected a published post");
   expect(r.url).toBe("U");
   expect(r.lang).toBe("en");
   expect(r.topic).toBe("t");
