@@ -64,9 +64,11 @@ export async function generatePost(
   const { title, html } = parsed;
   if (!title || !html) throw new Error("gemini: missing title/html");
 
-  // Must contain the backlink to the correct domain + locale (guards link loss / domain injection).
-  if (!html.includes(`href="${SITE}/${lang}`)) {
-    throw new Error(`gemini: missing/invalid backlink to ${SITE}/${lang}`);
+  // Auto-published with no human review, so enforce EXACTLY ONE link, pointing at
+  // the correct domain + locale (guards link loss, domain injection, and extra spam links).
+  const hrefs = [...html.matchAll(/href="([^"]*)"/gi)].map((m) => m[1]);
+  if (hrefs.length !== 1 || !hrefs[0].startsWith(`${SITE}/${lang}`)) {
+    throw new Error(`gemini: expected exactly one backlink to ${SITE}/${lang}`);
   }
   return { title, html };
 }

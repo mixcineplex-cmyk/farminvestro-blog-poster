@@ -29,6 +29,8 @@ function utcDay(d: string | Date): string {
   return new Date(d).toISOString().slice(0, 10);
 }
 
+// shortcut: check-then-publish has a small TOCTOU window — two concurrent cron fires
+// could both pass and double-post. Acceptable at 3x/week; upgrade to a DB flag if it recurs.
 export async function hasAutoPostToday(
   token: string,
   now: Date,

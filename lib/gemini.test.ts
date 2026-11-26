@@ -37,3 +37,17 @@ test("rejects wrong/injected domain", async () => {
     generatePost("en", "t", resp(JSON.stringify({ title: "T", html: bad })) as unknown as typeof fetch),
   ).rejects.toThrow();
 });
+
+test("rejects extra link alongside valid backlink", async () => {
+  const html = `<a href="https://www.eafarmforex.com/en">ok</a> <a href="https://spam.example/x">click</a>`;
+  await expect(
+    generatePost("en", "t", resp(JSON.stringify({ title: "T", html })) as unknown as typeof fetch),
+  ).rejects.toThrow();
+});
+
+test("rejects lookalike suffix domain", async () => {
+  const html = `<a href="https://www.eafarmforex.com.evil.com/en">x</a>`;
+  await expect(
+    generatePost("en", "t", resp(JSON.stringify({ title: "T", html })) as unknown as typeof fetch),
+  ).rejects.toThrow();
+});
